@@ -22,6 +22,9 @@ class Connection(Connector):
             extra_headers=[], backend_mod=None, **ssl_args):
         self._s = backend_mod.Socket(socket.AF_INET, socket.SOCK_STREAM)
 
+        if pool and pool.timeout > 0:
+                self._s.settimeout(pool.timeout)
+
         self._s.connect((host, port))
 
         if is_ssl:
